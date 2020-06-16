@@ -1,7 +1,25 @@
 function main() {
 
     const getBook = () => {
-        // tuliskan kode di sini!
+        // fungsi untuk mendapatkan buku
+        //membuat instance dari xmlhttprequest
+        const xhr = new XMLHttpRequest
+        //menetapkan callback jika response succes dan eror
+        xhr.onload = function () {
+            const responseJson = JSON.parse(this.responseText);
+            if (responseJson.error) {
+                showResponseMessage(responseJson.message);
+            } else {
+                renderAllBooks(responseJson.books);
+            }
+        }
+        xhr.onerror = function () {
+            showResponseMessage();
+        }
+        //membuat get req dan menatapkakn target url
+        xhr.open("GET", "https://web-server-book-dicoding.appspot.com/list");
+        //mengirm request
+        xhr.send();
     };
 
 
@@ -26,7 +44,7 @@ function main() {
         jangan ubah kode di bawah ini ya!
     */
 
-    const renderAllBooks = (books) => {
+    const renderAllBooks = (books) => { //menampilkan data buku
         const listBookElement = document.querySelector("#listBook");
         listBookElement.innerHTML = "";
 
